@@ -12,6 +12,14 @@ class ContentCardExample extends HTMLElement {
       }
     }
 
+    if (this.config['name']) {
+      title = this.config['name'];
+    }
+
+    if (this.config['suffix']) {
+      title += this.config['suffix'];
+    }
+
     if (!this.content) {
       this.innerHTML = `
         <ha-card header="">
@@ -43,9 +51,9 @@ class ContentCardExample extends HTMLElement {
     if (state && state.attributes && state.attributes['trains'] && state.attributes['trains'].length > 0) {
       this.body = this.querySelector('#table-body');
 
-      for (const train of state.attributes['trains']) {
-        console.log(train);
-
+      const size = this.config['size'] ? Math.min(this.config['size'], state.attributes['trains'].length) : state.attributes['trains'].length;
+      for (let i = 0; i < size; i++) {
+        const train = state.attributes['trains'][i];
         let row = this.body.insertRow();
         row.style.padding = '3px'
         let cell = row.insertCell();
